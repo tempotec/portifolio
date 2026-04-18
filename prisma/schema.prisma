@@ -1,0 +1,239 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  passwordHash String
+  role         String    @default("ADMIN")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  sessions Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model HeroSection {
+  id               String   @id @default(cuid())
+  singletonKey     String   @unique @default("hero")
+  eyebrow          String
+  titleLead        String
+  titleAccent      String
+  description      String
+  stackJson        String
+  signalsJson      String   @default("[]")
+  ctaPrimaryText   String
+  ctaPrimaryHref   String
+  ctaSecondaryText String
+  ctaSecondaryHref String
+  status           String   @default("DRAFT")
+  publishedAt      DateTime?
+  profileTitle     String
+  profileSubtitle  String
+  terminalLinesJson String
+  socialLinksJson  String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  description String
+  tagsJson    String
+  sortOrder   Int      @default(0)
+  status      String   @default("DRAFT")
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  eyebrow     String
+  title       String
+  summary     String?
+  description String
+  featured    Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  stackJson   String
+  tagsJson    String
+  liveUrl     String?
+  repoUrl     String?
+  status      String   @default("DRAFT")
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model AboutSection {
+  id              String   @id @default(cuid())
+  singletonKey    String   @unique @default("about")
+  kicker          String
+  title           String
+  description     String
+  highlightsJson  String   @default("[]")
+  metricsJson     String   @default("[]")
+  status          String   @default("DRAFT")
+  publishedAt     DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model SkillCategory {
+  id          String      @id @default(cuid())
+  slug        String      @unique
+  title       String
+  sortOrder   Int         @default(0)
+  status      String      @default("DRAFT")
+  publishedAt DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  items       SkillItem[]
+}
+
+model SkillItem {
+  id          String        @id @default(cuid())
+  categoryId  String
+  category    SkillCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  title       String
+  level       String?
+  sortOrder   Int           @default(0)
+  status      String        @default("DRAFT")
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model ContactPage {
+  id              String   @id @default(cuid())
+  singletonKey    String   @unique @default("contact")
+  kicker          String
+  title           String
+  description     String
+  infoJson        String   @default("[]")
+  socialJson      String   @default("[]")
+  status          String   @default("DRAFT")
+  publishedAt     DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model MediaAsset {
+  id          String   @id @default(cuid())
+  url         String
+  alt         String
+  mimeType    String
+  size        Int?
+  width       Int?
+  height      Int?
+  folder      String?
+  status      String   @default("DRAFT")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Resume {
+  id                  String   @id @default(cuid())
+  singletonKey        String   @unique @default("resume")
+  fullName            String
+  email               String
+  phone               String?
+  location            String?
+  profileImageUrl     String?
+  profileImageAlt     String   @default("Foto de perfil")
+  professionalSummary String
+  nationalId          String?
+  linkedinUrl         String?
+  portfolioUrl        String?
+  githubUrl           String?
+  status              String   @default("DRAFT")
+  publishedAt         DateTime?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  experiences         Experience[]
+  educations          Education[]
+  certifications      Certification[]
+  languages           Language[]
+}
+
+model Experience {
+  id            String   @id @default(cuid())
+  resumeId      String
+  resume        Resume   @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  company       String
+  position      String
+  description   String
+  startDate     String
+  endDate       String?
+  isCurrent     Boolean  @default(false)
+  skillsJson    String   @default("[]")
+  imageUrl      String?
+  imageAlt      String?
+  sortOrder     Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Education {
+  id            String   @id @default(cuid())
+  resumeId      String
+  resume        Resume   @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  institution   String
+  course        String
+  degree        String?
+  area          String?
+  startDate     String
+  endDate       String?
+  isCurrent     Boolean  @default(false)
+  description   String?
+  imageUrl      String?
+  imageAlt      String?
+  sortOrder     Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Certification {
+  id            String   @id @default(cuid())
+  resumeId      String
+  resume        Resume   @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  title         String
+  issuer        String
+  credentialUrl String?
+  issueDate     String
+  expiryDate    String?
+  imageUrl      String?
+  imageAlt      String?
+  sortOrder     Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Language {
+  id            String   @id @default(cuid())
+  resumeId      String
+  resume        Resume   @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  name          String
+  proficiency   String   @default("Intermediário")
+  sortOrder     Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
