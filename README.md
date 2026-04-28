@@ -1,28 +1,26 @@
 # Portfólio Renan Gomes
 
-Sistema editorial de portfólio construído em Next.js, TypeScript, Tailwind, Prisma e SQLite local.
+Aplicação editorial do portfólio construída com Next.js, TypeScript, Tailwind, Prisma e SQLite local.
 
-## Estado atual
+## Estrutura essencial
 
-- A base legacy continua no repositório como referência de conteúdo.
-- O novo app Next.js já está estruturado com rotas públicas, admin e API.
-- O schema Prisma inicial já está modelado para a próxima fase.
-- O banco local SQLite é inicializado por script em vez de `prisma migrate dev`.
+- `app/`: páginas públicas, painel admin e rotas de API.
+- `components/`: módulos de interface do site e do admin.
+- `lib/`: acesso a dados, autenticação, sessão e conteúdo base.
+- `prisma/`: schema, migrations e seed.
+- `scripts/`: bootstrap local do SQLite.
 
 ## Rodar localmente
 
 ```bash
 npm install
+npm run db:migrate
+npm run db:seed
 npm run dev
 ```
 
-Para inicializar o SQLite local:
+## Ambiente local
 
-```bash
-npm run db:migrate
-npm run db:seed
-```
-
-## Próximo passo
-
-Conectar o schema Prisma ao PostgreSQL, fechar autenticação e migrar o CRUD editorial.
+- O app usa `dev.db` como banco SQLite local.
+- As credenciais e o `DATABASE_URL` podem ser definidos em `.env`.
+- Arquivos de build, logs e testes locais devem permanecer fora do versionamento.

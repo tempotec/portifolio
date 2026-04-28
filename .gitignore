@@ -6,6 +6,9 @@ coverage
 .env.local
 .env.*.local
 *.log
+*.err
 *.pid
+*.tmp
+*-cookies.txt
 *.tsbuildinfo
 dev.db

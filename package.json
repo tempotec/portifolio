@@ -12,7 +12,9 @@
     "db:migrate": "tsx scripts/init-sqlite.ts",
     "db:seed": "tsx prisma/seed.ts",
     "prisma:generate": "prisma generate",
-    "prisma:studio": "prisma studio"
+    "prisma:studio": "prisma studio",
+    "sync": "node scripts/auto-sync.js",
+    "sync:msg": "node scripts/auto-sync.js"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.7.0",

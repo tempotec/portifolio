@@ -10,8 +10,30 @@ const loginSchema = z.object({
   password: z.string().min(1),
 });
 
+async function parseLoginBody(request: NextRequest) {
+  const rawBody = await request.text().catch(() => "");
+
+  if (!rawBody) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(rawBody);
+  } catch {
+    const params = new URLSearchParams(rawBody);
+    const email = params.get("email");
+    const password = params.get("password");
+
+    if (!email || !password) {
+      return null;
+    }
+
+    return { email, password };
+  }
+}
+
 export async function POST(request: NextRequest) {
-  const body = await request.json().catch(() => null);
+  const body = await parseLoginBody(request);
   const parsed = loginSchema.safeParse(body);
 
   if (!parsed.success) {

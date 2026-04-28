@@ -1,6 +1,5 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 
-import { legacyInventory } from "@/lib/legacy-inventory";
 import { getAdminDashboardSummary } from "@/lib/editorial";
 
 export const dynamic = "force-dynamic";
@@ -25,9 +24,9 @@ export default async function AdminDashboardPage() {
       description: "Cards published on the home page and ordered in the database.",
     },
     {
-      title: "Legacy migration",
-      value: `${legacyInventory.seedCandidates.length} seeds` ,
-      description: "Items from the old site still mapped for seed conversion.",
+      title: "Archived",
+      value: `${summary.archivedProjects}`,
+      description: "Projects kept out of the public catalog without being deleted.",
     },
   ] as const;
 
@@ -53,24 +52,22 @@ export default async function AdminDashboardPage() {
 
       <div className="grid gap-6 lg:grid-cols-[1fr_0.95fr]">
         <article className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-sky-700">Next sprint</p>
-          <h2 className="mt-3 text-2xl font-semibold tracking-[-0.05em] text-slate-900">Close the editorial domain</h2>
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-sky-700">Operational focus</p>
+          <h2 className="mt-3 text-2xl font-semibold tracking-[-0.05em] text-slate-900">Keep the editorial flow consistent</h2>
           <ul className="mt-5 space-y-3 text-sm leading-7 text-slate-700">
-            <li className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">1. Hero singleton with real read and write.</li>
-            <li className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">2. Full CRUD for projects.</li>
-            <li className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">3. Full CRUD for services.</li>
+            <li className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">1. Publish only reviewed hero copy and CTA links.</li>
+            <li className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">2. Keep project status and sort order aligned with the public catalog.</li>
+            <li className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">3. Recheck service cards after every database seed or import.</li>
           </ul>
         </article>
 
         <article className="rounded-[28px] border border-sky-200 bg-gradient-to-br from-sky-50 to-white p-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-sky-700">Seed initial</p>
-          <h2 className="mt-3 text-2xl font-semibold tracking-[-0.05em] text-slate-900">Legacy already mapped into data</h2>
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-sky-700">Core modules</p>
+          <h2 className="mt-3 text-2xl font-semibold tracking-[-0.05em] text-slate-900">What keeps the current app online</h2>
           <ul className="mt-5 space-y-3 text-sm leading-7 text-slate-700">
-            {legacyInventory.seedCandidates.map((item) => (
-              <li key={item} className="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-[0_10px_30px_rgba(15,23,42,0.04)]">
-                {item}
-              </li>
-            ))}
+            <li className="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-[0_10px_30px_rgba(15,23,42,0.04)]">Next app router pages and API routes</li>
+            <li className="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-[0_10px_30px_rgba(15,23,42,0.04)]">Prisma schema, migrations and local SQLite database</li>
+            <li className="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-[0_10px_30px_rgba(15,23,42,0.04)]">Admin authentication, session handling and editorial forms</li>
           </ul>
         </article>
       </div>
