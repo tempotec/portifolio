@@ -104,6 +104,26 @@ function ProjectEditor({ project }: { project?: Awaited<ReturnType<typeof getEdi
         />
       </label>
 
+      <label className="space-y-2 text-sm text-slate-600">
+        <span className="block text-xs uppercase tracking-[0.28em] text-slate-500">Cover Image URL</span>
+        <input
+          name="coverImageUrl"
+          type="url"
+          defaultValue={project?.coverImageUrl ?? ""}
+          placeholder="https://..."
+          className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-cyan-400/50"
+        />
+        {project?.coverImageUrl && (
+          <div className="mt-3 rounded-2xl overflow-hidden border border-slate-200">
+            <img
+              src={project.coverImageUrl}
+              alt={project.title}
+              className="w-full h-48 object-cover"
+            />
+          </div>
+        )}
+      </label>
+
       <div className="grid gap-4 md:grid-cols-2">
         <label className="space-y-2 text-sm text-slate-600">
           <span className="block text-xs uppercase tracking-[0.28em] text-slate-500">Tags</span>
@@ -205,6 +225,16 @@ export default async function AdminProjectsPage() {
                     {project.statusValue}
                   </div>
                 </div>
+
+                {project.coverImageUrl && (
+                  <div className="mt-4 rounded-2xl overflow-hidden border border-slate-200">
+                    <img
+                      src={project.coverImageUrl}
+                      alt={project.title}
+                      className="w-full h-56 object-cover"
+                    />
+                  </div>
+                )}
 
                 <p className="mt-4 text-sm leading-7 text-slate-600">{project.summary || project.description}</p>
 

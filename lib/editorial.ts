@@ -67,6 +67,7 @@ export type PublicProjectCard = {
   tags: string[];
   featured: boolean;
   tone: ProjectTone;
+  coverImageUrl: string | null;
 };
 
 export type ProjectDetailView = PublicProjectCard & {
@@ -91,6 +92,7 @@ export type EditableProject = {
   sortOrder: number;
   liveUrl: string;
   repoUrl: string;
+  coverImageUrl: string;
   statusValue: EditorialStatus;
   publishedAt: string | null;
 };
@@ -291,6 +293,7 @@ export type ProjectFormInput = {
   sortOrder: number;
   liveUrl: string;
   repoUrl: string;
+  coverImageUrl: string;
   status: EditorialStatus;
 };
 
@@ -541,6 +544,7 @@ function mapProjectRecord(record: ProjectRecordLike): EditableProject {
     sortOrder: record.sortOrder,
     liveUrl: record.liveUrl ?? "",
     repoUrl: record.repoUrl ?? "",
+    coverImageUrl: record.coverImageUrl ?? "",
     statusValue: toEditorialStatus(record.status),
     publishedAt: record.publishedAt ? record.publishedAt.toISOString() : null,
   };
@@ -555,6 +559,7 @@ function mapProjectToPublicCard(record: ProjectRecordLike, tone: ProjectTone): P
     tags: parseJsonArray(record.tagsJson, []),
     featured: record.featured,
     tone,
+    coverImageUrl: record.coverImageUrl ?? null,
   };
 }
 
@@ -571,6 +576,7 @@ function mapProjectToDetail(record: ProjectRecordLike, tone: ProjectTone): Proje
     tone,
     liveUrl: record.liveUrl,
     repoUrl: record.repoUrl,
+    coverImageUrl: record.coverImageUrl ?? null,
     status: toEditorialStatus(record.status),
     publishedAt: record.publishedAt ? record.publishedAt.toISOString() : null,
   };
@@ -684,6 +690,7 @@ export function readProjectFormData(formData: FormData): ProjectFormInput {
     sortOrder: Number.parseInt(String(formData.get("sortOrder") ?? "0"), 10) || 0,
     liveUrl: String(formData.get("liveUrl") ?? "").trim(),
     repoUrl: String(formData.get("repoUrl") ?? "").trim(),
+    coverImageUrl: String(formData.get("coverImageUrl") ?? "").trim(),
     status: toEditorialStatus(String(formData.get("status") ?? "DRAFT")),
   };
 }
@@ -946,6 +953,7 @@ export async function upsertProject(input: ProjectFormInput) {
     sortOrder: input.sortOrder,
     liveUrl: input.liveUrl || null,
     repoUrl: input.repoUrl || null,
+    coverImageUrl: input.coverImageUrl || null,
     status: input.status,
   };
 

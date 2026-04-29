@@ -64,22 +64,23 @@ model Service {
 }
 
 model Project {
-  id          String   @id @default(cuid())
-  slug        String   @unique
-  eyebrow     String
-  title       String
-  summary     String?
-  description String
-  featured    Boolean  @default(false)
-  sortOrder   Int      @default(0)
-  stackJson   String
-  tagsJson    String
-  liveUrl     String?
-  repoUrl     String?
-  status      String   @default("DRAFT")
-  publishedAt DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  eyebrow        String
+  title          String
+  summary        String?
+  description    String
+  coverImageUrl  String?
+  featured       Boolean  @default(false)
+  sortOrder      Int      @default(0)
+  stackJson      String
+  tagsJson       String
+  liveUrl        String?
+  repoUrl        String?
+  status         String   @default("DRAFT")
+  publishedAt    DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 model AboutSection {
